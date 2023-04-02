@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: searchservice-deployment
+  labels:
+    app: searchservice
+spec:
+  template:
+    metadata:
+      name: searchservice-pod
+      labels:
+        app: searchservice
+    spec:
+      containers:
+        - name: searchservice
+          image: ishangaurav/i-searchservice:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8082
+              protocol: TCP
+          env:
+            - name: ELASTIC_HOST_AND_PORT
+              value: nagp.es.us-central1.gcp.cloud.es.io:9243
+            - name: ELASTIC_USERNAME
+              value: elastic
+            - name: ELASTIC_PASSWORD
+              value: 8UdUfgo1XvTimocYSxNIuCma
+          resources:
+            requests:
+              memory: 250Mi
+              cpu: 260m
+            limits:
+              memory: 500Mi
+              cpu: 500m
+  replicas: 1
+  selector:
+    matchLabels:
+      app: searchservice
+---
+# Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: searchservice-loadbalancer-service
+spec:
+  type: LoadBalancer
+  ports:
+    - targetPort: 8082
+      port: 8082
+      nodePort: 30083
+      protocol: TCP
+  selector:
+    app: searchservice
