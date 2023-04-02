@@ -12,7 +12,7 @@ pipeline {
                 sh 'mvn install'
                 sh '${bin}/docker build -t i-searchservice:latest -f docker/Dockerfile .'
                 sh '${bin}/docker tag i-searchservice:latest ishangaurav/i-searchservice:latest'
-                sh '${bin}/push ishangaurav/i-searchservice:latest'
+                sh '${bin}/docker push ishangaurav/i-searchservice:latest'
                 sh '${bin}/kubectl apply -f k8s/deployment.yml'
                 echo '---------- BUILD STAGE FINISHED --------------'
             }
