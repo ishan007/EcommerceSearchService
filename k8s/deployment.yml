@@ -45,7 +45,7 @@ metadata:
   name: searchservice-loadbalancer-service
   namespace: ishan
 spec:
-  loadBalancerIP: 40.76.169.194
+  loadBalancerIP: 40.76.144.166
   type: LoadBalancer
   ports:
     - targetPort: 8082
